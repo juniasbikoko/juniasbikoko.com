@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de QR Code Dynamique</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f0f0f0; }
+        header { background-color: #4CAF50; color: white; padding: 15px; text-align: center; }
+        .content { max-width: 1000px; margin: 20px auto; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .qr-generator { display: flex; justify-content: space-between; margin-bottom: 30px; }
+        .input-section, .qr-display { width: 48%; }
+        input[type="text"] { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; transition: background-color 0.3s; }
+        button:hover { background-color: #45a049; }
+        .features { display: flex; flex-wrap: wrap; justify-content: space-around; }
+        .feature { text-align: center; width: 22%; margin-bottom: 20px; padding: 15px; background-color: #f9f9f9; border-radius: 8px; transition: transform 0.3s; }
+        .feature:hover { transform: translateY(-5px); }
+        #qrCode { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>QR Code Monkey Dynamique</h1>
+    </header>
+    <div class="content">
+        <div class="qr-generator">
+            <div class="input-section">
+                <h2>Entrez le contenu</h2>
+                <input type="text" id="qrInput" placeholder="Votre URL">
+                <button onclick="generateQR()">Créer un QR Code</button>
+            </div>
+            <div class="qr-display">
+                <img id="qrCode" src="" alt="QR Code généré">
+            </div>
+        </div>
+        <div class="features">
+            <div class="feature">
+                <h3>QR Codes Dynamiques</h3>
+                <p>Éditez et changez vos QR codes à tout moment.</p>
+            </div>
+            <div class="feature">
+                <h3>Statistiques de Scan</h3>
+                <p>Suivez vos QR codes et obtenez des informations sur les scans.</p>
+            </div>
+            <div class="feature">
+                <h3>Création en Masse</h3>
+                <p>Créez plusieurs QR codes en un rien de temps.</p>
+            </div>
+            <div class="feature">
+                <h3>Dossiers de Campagne</h3>
+                <p>Organisez vos QR codes dans des dossiers.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateQR() {
+            const input = document.getElementById('qrInput').value;
+            if (input) {
+                // Utilisation de l'API QR Code Generator
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(input)}`;
+                document.getElementById('qrCode').src = qrUrl;
+            } else {
+                alert("Veuillez entrer un contenu pour le QR code.");
+            }
+        }
+
+        // Animation des features au scroll
+        window.addEventListener('scroll', function() {
+            const features = document.querySelectorAll('.feature');
+            features.forEach(feature => {
+                const position = feature.getBoundingClientRect().top;
+                if (position < window.innerHeight - 100) {
+                    feature.style.opacity = '1';
+                    feature.style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
